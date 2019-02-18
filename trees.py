@@ -6,11 +6,12 @@ class tree:
 
         self.rqm_segtree = []
         self.length = len(array)
-        self.form_rqm_segtree(array)
+        self.array = array
 
 
+    def form_rqm_segtree(self):
 
-    def form_rqm_segtree(self, array):
+        array = self.array
 
         levels = []
 

@@ -4,6 +4,7 @@ lines = open('input05.txt', 'r').readlines()
 
 arr = list(map(int, lines[1].split()))
 rqmtree = tree(arr)
+rqmtree.form_rqm_segtree()
 requests = lines[2:]
 outputs = list(map(int,open('output05.txt' ,'r').readlines()))
 
