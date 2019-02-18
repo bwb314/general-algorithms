@@ -9,9 +9,11 @@ class tree:
         self.array = array
 
 
-    def form_rqm_segtree(self):
+    def form_rqm_segtree(self, op = min):
 
         array = self.array
+
+        self.rqmop = op
 
         levels = []
 
@@ -50,7 +52,7 @@ class tree:
                 
                 else:
                 
-                    next_level.append(min(l,r))
+                    next_level.append(op(l,r))
 
             level = next_level
 
@@ -63,7 +65,7 @@ class tree:
 
     def rqm_query(self, l, r):
     
-    
+        op = self.rqmop 
     
         segtree = self.rqm_segtree
         
@@ -71,7 +73,7 @@ class tree:
     
             return "NO"
     
-        new_min = ''
+        new_targ = ''
         
         frontier = set()
 
@@ -90,11 +92,11 @@ class tree:
     
             if (rind <= r and lind >= l):
     
-                if new_min == '':
+                if new_targ == '':
     
-                    new_min = segtree[ind]
+                    new_targ = segtree[ind]
     
-                new_min = min(segtree[ind], new_min)
+                new_targ = op(segtree[ind], new_targ)
                 
                 continue
         
@@ -120,6 +122,6 @@ class tree:
     
                 frontier.add((right,rlind,rrind))
             
-        return new_min
+        return new_targ
 
 
