@@ -88,9 +88,42 @@ class segtree:
                 # if level has odd number of nodes
                 if node.right:
                     queue.append(node.right)
-            
              
         return ans
         
+    def update(self, ind, val):
+        
+        if not self.root:
+            return
+        if ind > self.root.indr:
+            return
+
+        
+        stack = [self.root]
+        node = self.root
+        l = node.left
+        r = node.right
+        while l != r:
+            
+            left = node.left
+            right = node.right
+            if left and left.indl <= ind <= left.indr:
+                node = left
+                stack.append(left)
+                l = left.indl
+                r = left.indr
+            elif right and right.indl <= ind <= right.indr:
+                node = right
+                stack.append(right)
+                l = right.indl
+                r = right.indr
+        
+        while stack:                
+            
+            node = stack.pop()
+            if not node.right or not node.left:
+                node.val = val
+            else:
+                node.val = self.op([node.left.val, node.right.val])
 
 
