@@ -1,0 +1,107 @@
+class node:
+
+    def __init__(self, left=None, right=None, **kwargs):
+
+        self.left = left
+        self.right = right
+        self.__dict__.update(kwargs)
+
+
+class segtree:
+
+    # Default op sets up range max query
+    def __init__(self, arr, op = max):
+
+        if op not in [max, min, sum]:
+            raise ValueError("Operation not supported")            
+        self.op = op
+        self.root = self.build(arr)
+    
+
+    def build(self, arr):
+    
+        frontier = [node(left = None, right = None, indl = i, indr = i, val = x) for i, x in enumerate(arr)]
+        if len(frontier) == 0:
+            return
+
+        while len(frontier) != 1:
+
+            if len(frontier)&1:
+                frontier.append(None)
+            for i in range(len(frontier)//2):
+                left = frontier.pop(0)
+                right = frontier.pop(0)
+                rightchild = right 
+                
+                if right != None:
+                    frontier.append(node(left = left,
+                                         right = right,
+                                         indl = left.indl, 
+                                         indr = right.indr, 
+                                         val = self.op([left.val, right.val])
+                                        ))
+                
+                else: 
+                    frontier.append(node(left = left,
+                                         right = None,
+                                         indl = left.indl, 
+                                         indr = left.indr, 
+                                         val = left.val
+                                        ))
+            
+        return frontier.pop()           
+
+    def level_order_traversal(self):
+        queue = [self.root]
+        while queue:
+            node = queue.pop(0)
+            print(node.indl, node.indr, node.val)    
+            if node.left: queue.append(node.left)
+            if node.right: queue.append(node.right)
+
+    def query(self, l, r):
+
+        # makes it so I can only support these ops
+        if self.op == min:
+            ans = float('inf')
+        elif self.op == max:
+            ans = float('-inf')
+        elif self.op == sum:
+            ans = 0 
+
+        if l > r:
+            return None
+        if not self.root:
+            return None
+        if self.root.indl > l or self.root.indr < r:
+            return None
+
+        queue = [self.root]
+        while queue:
+            node = queue.pop(0)
+            # range within query
+            if node.indl >= l and node.indr <= r:
+                ans = self.op([ans, node.val])
+            # query within range
+            elif node.indl <= l <= node.indr or node.indl <= r <= node.indr:
+                queue.append(node.left)
+                # if level has odd number of nodes
+                if node.right:
+                    queue.append(node.right)
+            
+             
+        return ans
+        
+
+
+from random import random
+
+a = [int(random()*100000) for _ in range(3000)]
+print(a)
+
+c = segtree(a, op = sum)
+#c.level_order_traversal()
+
+print(c.query(50,1299))
+ans = sum(a[50:1300])
+print(ans)
