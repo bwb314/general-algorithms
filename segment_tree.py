@@ -31,7 +31,6 @@ class segtree:
             for i in range(len(frontier)//2):
                 left = frontier.pop(0)
                 right = frontier.pop(0)
-                rightchild = right 
                 
                 if right != None:
                     frontier.append(node(left = left,
