@@ -109,14 +109,14 @@ class segtree:
             right = node.right
             if left and left.indl <= ind <= left.indr:
                 node = left
-                stack.append(left)
                 l = left.indl
                 r = left.indr
             elif right and right.indl <= ind <= right.indr:
                 node = right
-                stack.append(right)
                 l = right.indl
                 r = right.indr
+            
+            stack.append(node)
         
         while stack:                
             
