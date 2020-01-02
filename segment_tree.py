@@ -100,28 +100,24 @@ class segtree:
         
         stack = [self.root]
         node = self.root
-        l = node.indl
-        r = node.indr
-        while l != r:
+        while node.left:
             
             left = node.left
             right = node.right
             if left and left.indl <= ind <= left.indr:
                 node = left
-                l = left.indl
-                r = left.indr
             elif right and right.indl <= ind <= right.indr:
                 node = right
-                l = right.indl
-                r = right.indr
             
             stack.append(node)
         
         while stack:                
             
             node = stack.pop()
-            if not node.right:
+            if not node.right and not node.left:
                 node.val = val
+            elif not node.right:
+                node.val = node.left.val
             else:
                 node.val = self.op([node.left.val, node.right.val])
 
