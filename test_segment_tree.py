@@ -9,7 +9,7 @@ def test_max():
     r = min(l + int(random()*1000), 99999)
     myans = c.query(l,r)
     correct_ans = max(random_arr[l:r+1])
-    assert correct_ans == myans, "{} should be {}".format(correct_ans, myans)
+    assert correct_ans == myans, "{} should be {}, l={}, r={}".format(correct_ans, myans, l, r)
 
 def test_min():
     c = segtree(random_arr, op = min)
@@ -17,7 +17,7 @@ def test_min():
     r = min(l + int(random()*1000), 99999)
     myans = c.query(l,r)
     correct_ans = min(random_arr[l:r+1])
-    assert correct_ans == myans, "{} should be {}".format(correct_ans, myans)
+    assert correct_ans == myans, "{} should be {}, l={}, r={}".format(correct_ans, myans, l, r)
 
 def test_sum():
     c = segtree(random_arr, op = sum)
@@ -25,7 +25,7 @@ def test_sum():
     r = min(l + int(random()*1000), 99999)
     myans = c.query(l,r)
     correct_ans = sum(random_arr[l:r+1])
-    assert correct_ans == myans, "{} should be {}".format(correct_ans, myans)
+    assert correct_ans == myans, "{} should be {}, l={}, r={}".format(correct_ans, myans, l, r)
 
 def test_update():
     c = segtree(random_arr, op = max)
